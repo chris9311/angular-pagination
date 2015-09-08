@@ -48,7 +48,6 @@ app.controller('appController',function($scope,$rootScope,$routeParams,$http){
         $http.get('list.json')
             .success(function(data){
 
-                console.log(data);
                 //this logic can use in the node + express
                 var current = (page - 1) * pagesize;//page start by 1 ,items start by 0
                 var items = data || [];
@@ -121,7 +120,11 @@ app.directive('pagination',function(){
                 scope.pages = data.totalPages;
                 scope.totalPages = [];
                 //scope.sign=data.currentPage;
-                scope.sign = data.currentPage - data.currentPage%10 + 1 ;
+                if(data.currentPage%10 == 0){
+                    scope.sign = data.currentPage - 9;
+                }else{
+                    scope.sign = data.currentPage - data.currentPage%10 + 1 ;
+                }
                 scope.currentPage = data.currentPage;
                 scope.url = attrs.url;
                 if(scope.pages>10){
